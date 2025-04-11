@@ -1,8 +1,10 @@
 const main = document.getElementsByTagName("main").item(0);
+const ulMenu = document.getElementById("ulMenu");
 const URLMain = "https://fakestoreapi.com/products/";
 
-function getData(){
-    fetch(URLMain)
+function getData(cat){
+    const options = {"method": "GET"};
+    fetch(URLMain+cat, options)
     .then((response) => {
         console.log(response);
         response.json().then((res) =>{
@@ -19,7 +21,26 @@ function getData(){
     });
 }//getData
 
-getData(); 
+function getCategories(){
+    const options = {"method": "GET"};
+    fetch(URLMain+"categories/", options)
+    .then((response) => {
+        response.json().then((res) =>{
+            res.forEach((cat)=>{
+                ulMenu.insertAdjacentHTML("afterbegin",
+                `<li><a class="dropdown-item" onclick="getData('category/${(cat.replace("'","%27"))}');">${cat}</a></li>`);
+            });
+        });
+    }).catch((err)=> {
+        main.insertAdjacentHTML("beforeend",
+             `<div class="alert alert-danger" role="alert">
+            ${err.message}
+            </div> `);
+    });
+}//getCategories
+
+getCategories();
+getData(""); 
 
 function createCards(prods){
  
@@ -34,3 +55,5 @@ function createCards(prods){
         </div>`);
     });
 }
+
+
