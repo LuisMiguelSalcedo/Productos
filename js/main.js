@@ -1,6 +1,7 @@
 const main = document.getElementsByTagName("main").item(0);
 const ulMenu = document.getElementById("ulMenu");
 const URLMain = "https://fakestoreapi.com/products/";
+const mainProds = document.getElementById("mainProds");
 
 function getData(cat){
     const options = {"method": "GET"};
@@ -43,9 +44,10 @@ getCategories();
 getData(""); 
 
 function createCards(prods){
- 
+    mainProds.innerHTML = "";
+
     prods.forEach(prod => {
-        main.insertAdjacentHTML("beforeend", `<div class="card" style="width: 18rem;">
+        mainProds.insertAdjacentHTML("beforeend", `<div class="card" style="width: 18rem;">
             <img src="${prod.image}" class="card-img-top" alt="${prod.title}">
             <div class="card-body">
             <h5 class="card-title">${prod.title}</h5>
